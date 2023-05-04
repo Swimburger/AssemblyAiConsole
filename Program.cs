@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -26,7 +25,7 @@ public class Program
         // You may also remove the upload step and update the 'audio_url' parameter in the
         // 'GetTranscriptAsync' function to point to a remote audio or video file.
         // -----------------------------------------------------------------------------
-        var path = "absolute\\path\\to\\audio\\file";
+        var path = "C:\\Users\\niels\\Downloads\\espn-bears.m4a";
         var uploadedFileUrl = await UploadFileAsync(path);
         var transcript = await GetTranscriptAsync(uploadedFileUrl);
         Console.WriteLine("Transcript:\n" + transcript);
@@ -49,10 +48,7 @@ public class Program
 
     private static async Task<string> GetTranscriptAsync(string audioUrl)
     {
-        var data = new Dictionary<string, string>
-        {
-            {"audio_url", audioUrl}
-        };
+        var data = new {audio_url = audioUrl};
         var content = new StringContent(JsonSerializer.Serialize(data), Encoding.UTF8, "application/json");
 
         using var response = await HttpClient.PostAsync("https://api.assemblyai.com/v2/transcript", content);
